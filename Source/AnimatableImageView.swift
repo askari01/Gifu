@@ -23,7 +23,7 @@ public class AnimatableImageView: UIImageView {
   private var displayLinkInitialized: Bool = false
 
   /// A display link that keeps calling the `updateFrame` method on every screen refresh.
-  lazy var displayLink: CADisplayLink = {
+  lazy var displayLink: CADisplayLink = { [unowned self] in
     self.displayLinkInitialized = true
     let display = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
     display.isPaused = true
