@@ -9,7 +9,7 @@ class ViewController: UIViewController {
     imageView.animate(withGIFNamed: "earth")
   }
 
-  @IBAction func toggleAnimation(sender: AnyObject) {
+  @IBAction func toggleAnimation(_ sender: AnyObject) {
     if imageView.isAnimatingGIF {
       imageView.stopAnimatingGIF()
     } else {
