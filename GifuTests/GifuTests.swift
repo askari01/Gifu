@@ -27,7 +27,7 @@ class GifuTests: XCTestCase {
   }
 
   func testFramePreload() {
-    let expectation = self.expectation(withDescription: "frameDuration")
+    let expectation = self.expectation(description: "frameDuration")
 
     animator.prepareFrames {
       let animatedFrameCount = self.animator.animatedFrames.count
@@ -43,7 +43,7 @@ class GifuTests: XCTestCase {
       }
     }
 
-    waitForExpectations(withTimeout: 1.0) { error in
+    waitForExpectations(timeout: 1.0) { error in
       if let error = error {
         print("Error: \(error.localizedDescription)")
       }
@@ -51,7 +51,7 @@ class GifuTests: XCTestCase {
   }
 
   func testFrameInfo() {
-    let expectation = self.expectation(withDescription: "testFrameInfoIsAccurate")
+    let expectation = self.expectation(description: "testFrameInfoIsAccurate")
 
     animator.prepareFrames {
       let frameDuration = self.animator.frame(at: 5)?.duration ?? 0
@@ -63,7 +63,7 @@ class GifuTests: XCTestCase {
       expectation.fulfill()
     }
 
-    waitForExpectations(withTimeout: 1.0) { error in
+    waitForExpectations(timeout: 1.0) { error in
       if let error = error {
         print("Error: \(error.localizedDescription)")
       }
@@ -73,6 +73,6 @@ class GifuTests: XCTestCase {
 
 private func testImageDataNamed(_ name: String) -> Data {
   let testBundle = Bundle(for: GifuTests.self)
-  let imagePath = try! testBundle.bundleURL.appendingPathComponent(name)
+  let imagePath = testBundle.bundleURL.appendingPathComponent(name)
   return (try! Data(contentsOf: imagePath))
 }
