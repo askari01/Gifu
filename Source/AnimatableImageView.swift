@@ -4,7 +4,7 @@ import UIKit
 public class AnimatableImageView: UIImageView {
   /// Proxy object for preventing a reference cycle between the CADisplayLink and AnimatableImageView.
   /// Source: http://merowing.info/2015/11/the-beauty-of-imperfection/
-  class TargetProxy {
+  fileprivate class TargetProxy {
     private weak var target: AnimatableImageView?
 
     init(target: AnimatableImageView) {
