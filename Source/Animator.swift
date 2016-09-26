@@ -1,8 +1,8 @@
 import UIKit
 import ImageIO
 
-/// Responsible for storing and updating the frames of a `AnimatableImageView` instance via delegation.
-class Animator {
+/// Responsible for storing and updating the frames of an `Animator` instance.
+class FrameStore {
   /// Maximum duration to increment the frame timer with.
   let maxTimeStep = 1.0
   /// An array of animated frames from a single GIF image.
@@ -113,7 +113,7 @@ class Animator {
   }
 }
 
-private extension Animator {
+private extension FrameStore {
   /// Whether preloading is needed or not.
   var preloadingIsNeeded: Bool {
     return preloadFrameCount < frameCount - 1

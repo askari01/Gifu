@@ -1,12 +1,12 @@
-class AnimationProxy {
+class Animator {
   init(with view: AnimatableImage) {
     self.view = view
   }
 
-  class TargetProxy {
-    private weak var target: AnimationProxy?
+  class DisplayLinkProxy {
+    private weak var target: Animator?
 
-    init(target: AnimationProxy) {
+    init(target: Animator) {
       self.target = target
     }
 
@@ -16,20 +16,20 @@ class AnimationProxy {
   }
 
   func updateFrameIfNeeded() {
-    guard let animator = animator else { return }
+    guard let animator = frameStore else { return }
     animator.shouldChangeFrame(with: displayLink.duration) { hasNewFrame in
       if hasNewFrame { view.layer.setNeedsDisplay() }
     }
   }
 
 
-  var animator: Animator?
+  var frameStore: FrameStore?
   var displayLinkInitialized: Bool = false
   weak var view: AnimatableImage!
 
   lazy var displayLink: CADisplayLink = { [unowned self] in
     self.displayLinkInitialized = true
-    let display = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
+    let display = CADisplayLink(target: DisplayLinkProxy(target: self), selector: #selector(DisplayLinkProxy.onScreenUpdate))
     display.isPaused = true
     return display
   }()
@@ -44,9 +44,9 @@ class AnimationProxy {
 
   func prepareForAnimation(withGIFData imageData: Data) {
     view.image = UIImage(data: imageData)
-    animator = Animator(data: imageData, size: view.frame.size, contentMode: view.contentMode, framePreloadCount: framePreloadCount)
-    animator?.needsPrescaling = needsPrescaling
-    animator?.prepareFrames()
+    frameStore = FrameStore(data: imageData, size: view.frame.size, contentMode: view.contentMode, framePreloadCount: framePreloadCount)
+    frameStore?.needsPrescaling = needsPrescaling
+    frameStore?.prepareFrames()
     attachDisplayLink()
   }
 
@@ -56,7 +56,7 @@ class AnimationProxy {
   }
 
   var frameCount: Int {
-    return animator?.frameCount ?? 0
+    return frameStore?.frameCount ?? 0
   }
 
   public var framePreloadCount = 50
@@ -74,7 +74,7 @@ class AnimationProxy {
   }
 
   public func startAnimatingGIF() {
-    if animator?.isAnimatable ?? false {
+    if frameStore?.isAnimatable ?? false {
       displayLink.isPaused = false
     }
   }
@@ -97,16 +97,16 @@ class AnimationProxy {
   /// Reset the image view values.
   func prepareForReuse() {
     stopAnimatingGIF()
-    animator = nil
+    frameStore = nil
   }
 
   func imageToDisplay() -> UIImage? {
-    return animator?.currentFrameImage ?? view.image
+    return frameStore?.currentFrameImage ?? view.image
   }
 }
 
 protocol AnimatableImage: class {
-  var animator: AnimationProxy? { get set }
+  var animator: Animator? { get set }
   var image: UIImage? { get set }
   var layer: CALayer { get }
   var frame: CGRect { get set }
@@ -128,11 +128,11 @@ extension AnimatableImage {
   }
 
   public func prepareForAnimation(withGIFNamed imageName: String) {
-    prepareForAnimation(withGIFNamed: imageName)
+    animator?.prepareForAnimation(withGIFNamed: imageName)
   }
 
   public func prepareForAnimation(withGIFData imageData: Data) {
-    prepareForAnimation(withGIFData: imageData)
+    animator?.prepareForAnimation(withGIFData: imageData)
   }
 
   public var frameCount: Int {
