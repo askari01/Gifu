@@ -1,11 +1,11 @@
 import UIKit
 
-public class AnimatableImageView: UIImageView, AnimatableImage {
-  var animator: AnimationProxy?
+public class GifuImageView: UIImageView, GIFAnimatable {
+  var animator: Animator?
 
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    animator = AnimationProxy(with: self)
+    animator = Animator(with: self)
   }
 
   public override func display(_ layer: CALayer) {

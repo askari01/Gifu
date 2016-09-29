@@ -2,7 +2,7 @@ import UIKit
 import Gifu
 
 class ViewController: UIViewController {
-  @IBOutlet weak var imageView: AnimatableImageView!
+  @IBOutlet weak var imageView: GifuImageView!
 
   override func viewDidLoad() {
     super.viewDidLoad()
