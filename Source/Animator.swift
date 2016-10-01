@@ -40,7 +40,7 @@ public class Animator {
   /// - parameter view: A view object that implements the `GIFAnimatable` protocol.
   ///
   /// - returns: A new animator instance.
-  init(withDelegate delegate: AnimatorDelegate) {
+  public init(withDelegate delegate: AnimatorDelegate) {
     self.delegate = delegate
   }
 
