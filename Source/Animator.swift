@@ -1,53 +1,86 @@
-class Animator {
-  public var framePreloadCount = 50
-  public var needsPrescaling = false
-  var frameStore: FrameStore?
-  var displayLinkInitialized: Bool = false
-  weak var view: GIFAnimatable!
 
-  lazy var displayLink: CADisplayLink = { [unowned self] in
+/// Handles the GIF animation logic.
+public class Animator {
+
+  /// Number of frame to buffer.
+  public var frameBufferCount = 50
+
+  /// Specifies whether GIF frames should be resized.
+  public var shouldResizeFrames = false
+
+  /// Responsible for loading individual frames and resizing them if necessary.
+  private var frameStore: FrameStore?
+
+  /// Tracks whether the display link is initialized.
+  private var displayLinkInitialized: Bool = false
+
+  /// A delegate responsible for displaying the GIF frames.
+  private weak var delegate: AnimatorDelegate!
+
+  /// Responsible for starting and stopping the animation.
+  private lazy var displayLink: CADisplayLink = { [unowned self] in
     self.displayLinkInitialized = true
     let display = CADisplayLink(target: DisplayLinkProxy(target: self), selector: #selector(DisplayLinkProxy.onScreenUpdate))
     display.isPaused = true
     return display
   }()
 
-  var isAnimatingGIF: Bool {
+  /// Introspect whether the `displayLink` is paused.
+  var isAnimating: Bool {
     return !displayLink.isPaused
   }
 
+  /// Total frame count of the GIF.
   var frameCount: Int {
     return frameStore?.frameCount ?? 0
   }
 
-  init(with view: GIFAnimatable) {
-    self.view = view
+  /// Instantiates a new animator object with a delegate view.
+  ///
+  /// - parameter view: A view object that implements the `GIFAnimatable` protocol.
+  ///
+  /// - returns: A new animator instance.
+  init(withDelegate delegate: AnimatorDelegate) {
+    self.delegate = delegate
   }
 
-  func updateFrameIfNeeded() {
-    guard let animator = frameStore else { return }
-    animator.shouldChangeFrame(with: displayLink.duration) { hasNewFrame in
-      if hasNewFrame { view.layer.setNeedsDisplay() }
+  /// Checks if there is a new frame to display.
+  fileprivate func updateFrameIfNeeded() {
+    guard let store = frameStore else { return }
+    store.shouldChangeFrame(with: displayLink.duration) {
+      if $0 { delegate.animatorHasNewFrame() }
     }
   }
 
-  func prepareForAnimation(withGIFNamed imageName: String) {
+
+  /// Prepares the animator instance for animation.
+  ///
+  /// - parameter imageName:   The file name of the GIF in the main bundle.
+  /// - parameter size:        The target size of the individual frames.
+  /// - parameter contentMode: The view content mode to use for the individual frames.
+  func prepareForAnimation(withGIFNamed imageName: String, size: CGSize, contentMode: UIViewContentMode) {
     guard let extensionRemoved = imageName.components(separatedBy: ".")[safe: 0],
       let imagePath = Bundle.main.url(forResource: extensionRemoved, withExtension: "gif"),
       let data = try? Data(contentsOf: imagePath) else { return }
 
-    prepareForAnimation(withGIFData: data)
+    prepareForAnimation(withGIFData: data, size: size, contentMode: contentMode)
   }
 
-  func prepareForAnimation(withGIFData imageData: Data) {
-    view.image = UIImage(data: imageData)
-    frameStore = FrameStore(data: imageData, size: view.frame.size, contentMode: view.contentMode, framePreloadCount: framePreloadCount)
-    frameStore?.needsPrescaling = needsPrescaling
+  /// Prepares the animator instance for animation.
+  ///
+  /// - parameter imageData:   GIF image data.
+  /// - parameter size:        The target size of the individual frames.
+  /// - parameter contentMode: The view content mode to use for the individual frames.
+  func prepareForAnimation(withGIFData imageData: Data, size: CGSize, contentMode: UIViewContentMode) {
+    frameStore = FrameStore(data: imageData, size: size, contentMode: contentMode, framePreloadCount: frameBufferCount)
+    frameStore?.shouldResizeFrames = shouldResizeFrames
     frameStore?.prepareFrames()
     attachDisplayLink()
   }
 
-  func attachDisplayLink() {
+
+  /// Add the display link to the main run loop.
+  private func attachDisplayLink() {
     displayLink.add(to: .main, forMode: RunLoopMode.commonModes)
   }
 
@@ -57,39 +90,65 @@ class Animator {
     }
   }
 
-  public func startAnimatingGIF() {
+  /// Start animating.
+  func startAnimating() {
     if frameStore?.isAnimatable ?? false {
       displayLink.isPaused = false
     }
   }
 
-  /// Stops the image view animation.
-  public func stopAnimatingGIF() {
+  /// Stop animating.
+  func stopAnimating() {
     displayLink.isPaused = true
   }
 
-  func animate(withGIFNamed imageName: String) {
-    prepareForAnimation(withGIFNamed: imageName)
-    startAnimatingGIF()
+  /// Prepare for animation and start animating immediately.
+  ///
+  /// - parameter imageName:   The file name of the GIF in the main bundle.
+  /// - parameter size:        The target size of the individual frames.
+  /// - parameter contentMode: The view content mode to use for the individual frames.
+  func animate(withGIFNamed imageName: String, size: CGSize, contentMode: UIViewContentMode) {
+    prepareForAnimation(withGIFNamed: imageName, size: size, contentMode: contentMode)
+    startAnimating()
   }
 
-  func animate(withGIFData data: Data) {
-    prepareForAnimation(withGIFData: data)
-    startAnimatingGIF()
+  /// Prepare for animation and start animating immediately.
+  ///
+  /// - parameter imageData:   GIF image data.
+  /// - parameter size:        The target size of the individual frames.
+  /// - parameter contentMode: The view content mode to use for the individual frames.
+  func animate(withGIFData data: Data, size: CGSize, contentMode: UIViewContentMode) {
+    prepareForAnimation(withGIFData: data, size: size, contentMode: contentMode)
+    startAnimating()
   }
 
+  /// Stop animating and nullify the frame store.
   func prepareForReuse() {
-    stopAnimatingGIF()
+    stopAnimating()
     frameStore = nil
   }
 
-  func imageToDisplay() -> UIImage? {
-    return frameStore?.currentFrameImage ?? view.image
+  /// Gets the current image from the frame store.
+  ///
+  /// - returns: An optional frame image to display.
+  public func imageToDisplay() -> UIImage? {
+    return frameStore?.currentFrameImage
   }
 }
 
-class DisplayLinkProxy {
+/// A proxy class to avoid a retain cycyle with the display link.
+fileprivate class DisplayLinkProxy {
+
+  /// The target animator.
   private weak var target: Animator?
+
+  /// Init with target animator.
+  ///
+  /// - parameter target: An animator instance.
+  ///
+  /// - returns: A new proxy instance.
   init(target: Animator) { self.target = target }
+
+  /// Lets the target update the frame if needed.
   @objc func onScreenUpdate() { target?.updateFrameIfNeeded() }
 }

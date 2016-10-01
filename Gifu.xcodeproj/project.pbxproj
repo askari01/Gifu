@@ -10,9 +10,10 @@
 		0036ABB71BBD1D0B00C6CC3D /* mugen.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0036ABB61BBD1D0B00C6CC3D /* mugen.gif */; };
 		0036ABB91BBD1D1400C6CC3D /* nailed.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0036ABB81BBD1D1400C6CC3D /* nailed.gif */; };
 		005656ED1A6F14D6008A0ED1 /* FrameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005656EC1A6F14D6008A0ED1 /* FrameStore.swift */; };
-		005656EF1A6F1C26008A0ED1 /* GifuImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005656EE1A6F1C26008A0ED1 /* GifuImageView.swift */; };
+		005656EF1A6F1C26008A0ED1 /* GIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005656EE1A6F1C26008A0ED1 /* GIFImageView.swift */; };
 		007E08441BD95E6200883D0C /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007E08431BD95E6200883D0C /* ArrayExtension.swift */; };
 		00978B6C1D9C6D2A00A6575F /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00978B6B1D9C6D2A00A6575F /* Animator.swift */; };
+		00978B6E1D9FA99D00A6575F /* AnimatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00978B6D1D9FA99D00A6575F /* AnimatorDelegate.swift */; };
 		009BD1391BBC7F6500FC982B /* GifuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009BD1381BBC7F6500FC982B /* GifuTests.swift */; };
 		009BD13B1BBC7F6500FC982B /* Gifu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B8C73E1A364DA400C188E7 /* Gifu.framework */; };
 		009BD1441BBC93C800FC982B /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009BD1431BBC93C800FC982B /* CGSizeExtension.swift */; };
@@ -37,9 +38,10 @@
 		0036ABB61BBD1D0B00C6CC3D /* mugen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = mugen.gif; path = Demo/GIFs/mugen.gif; sourceTree = SOURCE_ROOT; };
 		0036ABB81BBD1D1400C6CC3D /* nailed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = nailed.gif; path = Demo/GIFs/nailed.gif; sourceTree = SOURCE_ROOT; };
 		005656EC1A6F14D6008A0ED1 /* FrameStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameStore.swift; sourceTree = "<group>"; };
-		005656EE1A6F1C26008A0ED1 /* GifuImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifuImageView.swift; sourceTree = "<group>"; };
+		005656EE1A6F1C26008A0ED1 /* GIFImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFImageView.swift; sourceTree = "<group>"; };
 		007E08431BD95E6200883D0C /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		00978B6B1D9C6D2A00A6575F /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
+		00978B6D1D9FA99D00A6575F /* AnimatorDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatorDelegate.swift; sourceTree = "<group>"; };
 		009BD1361BBC7F6500FC982B /* GifuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GifuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		009BD1381BBC7F6500FC982B /* GifuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifuTests.swift; sourceTree = "<group>"; };
 		009BD13A1BBC7F6500FC982B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -106,7 +108,8 @@
 				00978B6B1D9C6D2A00A6575F /* Animator.swift */,
 				005656EC1A6F14D6008A0ED1 /* FrameStore.swift */,
 				00BF42CB1D99A1DC00C6F28D /* GIFAnimatable.swift */,
-				005656EE1A6F1C26008A0ED1 /* GifuImageView.swift */,
+				005656EE1A6F1C26008A0ED1 /* GIFImageView.swift */,
+				00978B6D1D9FA99D00A6575F /* AnimatorDelegate.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -299,7 +302,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				005656EF1A6F1C26008A0ED1 /* GifuImageView.swift in Sources */,
+				005656EF1A6F1C26008A0ED1 /* GIFImageView.swift in Sources */,
+				00978B6E1D9FA99D00A6575F /* AnimatorDelegate.swift in Sources */,
 				00BF42CC1D99A1DC00C6F28D /* GIFAnimatable.swift in Sources */,
 				005656ED1A6F14D6008A0ED1 /* FrameStore.swift in Sources */,
 				009BD1441BBC93C800FC982B /* CGSizeExtension.swift in Sources */,

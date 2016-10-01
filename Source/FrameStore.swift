@@ -1,22 +1,23 @@
 import UIKit
 import ImageIO
 
-/// Responsible for storing and updating the frames of an `Animator` instance.
+/// Responsible for storing and updating the frames of a single GIF.
 class FrameStore {
+
   /// Maximum duration to increment the frame timer with.
   let maxTimeStep = 1.0
 
   /// An array of animated frames from a single GIF image.
   var animatedFrames = [AnimatedFrame]()
 
-  /// The size to resize all frames to
+  /// The target size for all frames.
   let size: CGSize
 
-  /// The content mode to use when resizing
+  /// The content mode to use when resizing.
   let contentMode: UIViewContentMode
 
   /// Maximum number of frames to load at once
-  let preloadFrameCount: Int
+  let bufferFrameCount: Int
 
   /// The total number of frames in the GIF.
   var frameCount = 0
@@ -43,9 +44,8 @@ class FrameStore {
   /// Time elapsed since the last frame change. Used to determine when the frame should be updated.
   var timeSinceLastFrameChange: TimeInterval = 0.0
 
-  /// Specifies whether GIF frames should be pre-scaled.
-  /// - seealso: `needsPrescaling` in AnimatableImageView.
-  var needsPrescaling = true
+  /// Specifies whether GIF frames should be resized.
+  var shouldResizeFrames = true
   
   /// Dispatch queue used for preloading images.
   private lazy var preloadFrameQueue: DispatchQueue = {
@@ -76,7 +76,7 @@ class FrameStore {
     self.imageSource = CGImageSourceCreateWithData(data as CFData, options) ?? CGImageSourceCreateIncremental(options)
     self.size = size
     self.contentMode = contentMode
-    self.preloadFrameCount = framePreloadCount
+    self.bufferFrameCount = framePreloadCount
   }
 
   // MARK: - Frames
@@ -126,10 +126,10 @@ class FrameStore {
 private extension FrameStore {
   /// Whether preloading is needed or not.
   var preloadingIsNeeded: Bool {
-    return preloadFrameCount < frameCount - 1
+    return bufferFrameCount < frameCount - 1
   }
 
-  /// Optionally loads a single frame from an image source, resizes it if requierd, then returns an `UIImage`.
+  /// Optionally loads a single frame from an image source, resizes it if required, then returns an `UIImage`.
   ///
   /// - parameter index: The index of the frame to load.
   /// - returns: An optional `UIImage` instance.
@@ -138,7 +138,7 @@ private extension FrameStore {
     let image = UIImage(cgImage: imageRef)
     let scaledImage: UIImage?
 
-    if needsPrescaling {
+    if shouldResizeFrames {
       switch self.contentMode {
       case .scaleAspectFit: scaledImage = image.constrained(by: size)
       case .scaleAspectFill: scaledImage = image.filling(size: size)
@@ -195,7 +195,7 @@ private extension FrameStore {
   /// - returns: An array of indexes to preload.
   func preloadIndexes(withStartingIndex index: Int) -> [Int] {
     let nextIndex = increment(index: index)
-    let lastIndex = increment(index: index, by: preloadFrameCount)
+    let lastIndex = increment(index: index, by: bufferFrameCount)
 
     if lastIndex >= nextIndex {
       return [Int](nextIndex...lastIndex)
@@ -212,7 +212,7 @@ private extension FrameStore {
       let frameDuration = CGImageFrameDuration(with: imageSource, atIndex: index)
       animatedFrames += [AnimatedFrame(image: .none, duration: frameDuration)]
 
-      if index > preloadFrameCount { return }
+      if index > bufferFrameCount { return }
       animatedFrames[index] = animatedFrames[index].animatedFrame(with: loadFrame(at: index))
     }
   }
