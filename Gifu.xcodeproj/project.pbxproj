@@ -35,8 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0036ABB61BBD1D0B00C6CC3D /* mugen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = mugen.gif; path = Demo/GIFs/mugen.gif; sourceTree = SOURCE_ROOT; };
-		0036ABB81BBD1D1400C6CC3D /* nailed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = nailed.gif; path = Demo/GIFs/nailed.gif; sourceTree = SOURCE_ROOT; };
+		0036ABB61BBD1D0B00C6CC3D /* mugen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = mugen.gif; sourceTree = "<group>"; };
+		0036ABB81BBD1D1400C6CC3D /* nailed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = nailed.gif; sourceTree = "<group>"; };
 		005656EC1A6F14D6008A0ED1 /* FrameStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameStore.swift; sourceTree = "<group>"; };
 		005656EE1A6F1C26008A0ED1 /* GIFImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFImageView.swift; sourceTree = "<group>"; };
 		007E08431BD95E6200883D0C /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
@@ -47,7 +47,7 @@
 		009BD13A1BBC7F6500FC982B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		009BD1431BBC93C800FC982B /* CGSizeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
 		00B8C73E1A364DA400C188E7 /* Gifu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Gifu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		00B8C7421A364DA400C188E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Source/Info.plist; sourceTree = "<group>"; };
+		00B8C7421A364DA400C188E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00B8C75C1A364DCE00C188E7 /* ImageSourceHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSourceHelpers.swift; sourceTree = "<group>"; };
 		00B8C7951A3650EE00C188E7 /* Gifu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gifu.h; sourceTree = "<group>"; };
 		00BF42CB1D99A1DC00C6F28D /* GIFAnimatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFAnimatable.swift; sourceTree = "<group>"; };
@@ -80,17 +80,17 @@
 				0036ABB61BBD1D0B00C6CC3D /* mugen.gif */,
 				0036ABB81BBD1D1400C6CC3D /* nailed.gif */,
 			);
-			name = Images;
+			path = Images;
 			sourceTree = "<group>";
 		};
 		007E08401BD95BE900883D0C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				007E08431BD95E6200883D0C /* ArrayExtension.swift */,
 				009BD1431BBC93C800FC982B /* CGSizeExtension.swift */,
 				EAF49C7E1A3A4DE000B395DF /* UIImageExtension.swift */,
-				007E08431BD95E6200883D0C /* ArrayExtension.swift */,
 			);
-			name = Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		007E08411BD95C0200883D0C /* Helpers */ = {
@@ -98,7 +98,7 @@
 			children = (
 				00B8C75C1A364DCE00C188E7 /* ImageSourceHelpers.swift */,
 			);
-			name = Helpers;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		007E08421BD95C6100883D0C /* Classes */ = {
@@ -106,20 +106,20 @@
 			children = (
 				EAF49CB01A3B6EEB00B395DF /* AnimatedFrame.swift */,
 				00978B6B1D9C6D2A00A6575F /* Animator.swift */,
+				00978B6D1D9FA99D00A6575F /* AnimatorDelegate.swift */,
 				005656EC1A6F14D6008A0ED1 /* FrameStore.swift */,
 				00BF42CB1D99A1DC00C6F28D /* GIFAnimatable.swift */,
 				005656EE1A6F1C26008A0ED1 /* GIFImageView.swift */,
-				00978B6D1D9FA99D00A6575F /* AnimatorDelegate.swift */,
 			);
-			name = Classes;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		009BD1371BBC7F6500FC982B /* GifuTests */ = {
 			isa = PBXGroup;
 			children = (
+				0036ABBA1BBD1D1700C6CC3D /* Images */,
 				009BD1381BBC7F6500FC982B /* GifuTests.swift */,
 				009BD13A1BBC7F6500FC982B /* Info.plist */,
-				0036ABBA1BBD1D1700C6CC3D /* Images */,
 			);
 			path = GifuTests;
 			sourceTree = "<group>";
@@ -127,10 +127,10 @@
 		00B8C7341A364DA400C188E7 = {
 			isa = PBXGroup;
 			children = (
-				00B8C75A1A364DBE00C188E7 /* Source */,
-				00B8C7411A364DA400C188E7 /* Supporting Files */,
 				009BD1371BBC7F6500FC982B /* GifuTests */,
 				00B8C73F1A364DA400C188E7 /* Products */,
+				00B8C75A1A364DBE00C188E7 /* Source */,
+				00B8C7411A364DA400C188E7 /* Supporting Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,16 +148,15 @@
 			children = (
 				00B8C7421A364DA400C188E7 /* Info.plist */,
 			);
-			name = "Supporting Files";
-			path = Source;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		00B8C75A1A364DBE00C188E7 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				007E08421BD95C6100883D0C /* Classes */,
-				007E08411BD95C0200883D0C /* Helpers */,
 				007E08401BD95BE900883D0C /* Extensions */,
+				007E08411BD95C0200883D0C /* Helpers */,
 				00B8C7951A3650EE00C188E7 /* Gifu.h */,
 			);
 			path = Source;
@@ -454,7 +453,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -476,7 +475,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
