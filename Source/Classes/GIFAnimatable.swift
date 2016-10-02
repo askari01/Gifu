@@ -1,5 +1,5 @@
 /// The protocol that view classes need to conform to to enable animated GIF support.
-public protocol GIFAnimatable: class, AnimatorDelegate, CALayerDelegate {
+public protocol GIFAnimatable: class {
 
   /// Responsible for managing the animation frames.
   var animator: Animator? { get set }
@@ -15,14 +15,6 @@ public protocol GIFAnimatable: class, AnimatorDelegate, CALayerDelegate {
 
   /// Content mode used for resizing the frames.
   var contentMode: UIViewContentMode { get set }
-
-  /// Implement this method and call `updateImageIfNeeded` from within it in your conforming class.
-  ///
-  /// - parameter layer:
-  func display(_ layer: CALayer)
-
-  /// Needs to be called whenever the conforming class needs to check if it needs to update the current frame being displayed.
-  func updateImageIfNeeded()
 }
 
 extension GIFAnimatable {
@@ -80,7 +72,12 @@ extension GIFAnimatable {
 
   /// Updates the image with a new frame if necessary.
   public func updateImageIfNeeded() {
-    image = animator?.imageToDisplay() ?? image
+    image = animator?.activeFrame() ?? image
+  }
+
+  /// Returns the active frame if available.
+  public func activeFrame() -> UIImage? {
+    return animator?.activeFrame()
   }
 }
 

@@ -1,12 +1,11 @@
-
-/// Handles the GIF animation logic.
+/// Responsible for parsing GIF data and decoding the individual frames.
 public class Animator {
 
   /// Number of frame to buffer.
-  public var frameBufferCount = 50
+  var frameBufferCount = 50
 
   /// Specifies whether GIF frames should be resized.
-  public var shouldResizeFrames = false
+  var shouldResizeFrames = false
 
   /// Responsible for loading individual frames and resizing them if necessary.
   var frameStore: FrameStore?
@@ -15,7 +14,7 @@ public class Animator {
   private var displayLinkInitialized: Bool = false
 
   /// A delegate responsible for displaying the GIF frames.
-  private weak var delegate: AnimatorDelegate!
+  private weak var delegate: GIFAnimatable!
 
   /// Responsible for starting and stopping the animation.
   private lazy var displayLink: CADisplayLink = { [unowned self] in
@@ -40,7 +39,7 @@ public class Animator {
   /// - parameter view: A view object that implements the `GIFAnimatable` protocol.
   ///
   /// - returns: A new animator instance.
-  public init(withDelegate delegate: AnimatorDelegate) {
+  public init(withDelegate delegate: GIFAnimatable) {
     self.delegate = delegate
   }
 
@@ -131,7 +130,7 @@ public class Animator {
   /// Gets the current image from the frame store.
   ///
   /// - returns: An optional frame image to display.
-  public func imageToDisplay() -> UIImage? {
+  func activeFrame() -> UIImage? {
     return frameStore?.currentFrameImage
   }
 }
