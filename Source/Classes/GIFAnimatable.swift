@@ -24,6 +24,7 @@ public protocol GIFAnimatable: class, AnimatorDelegate, CALayerDelegate {
   /// Needs to be called whenever the conforming class needs to check if it needs to update the current frame being displayed.
   func updateImageIfNeeded()
 }
+
 extension GIFAnimatable {
   /// Returns the intrinsic content size based on the size of the image.
   public var intrinsicContentSize: CGSize {
@@ -44,14 +45,14 @@ extension GIFAnimatable {
 
   /// Prepares the animator instance for animation.
   ///
-  /// - parameter imageName:   The file name of the GIF in the main bundle.
+  /// - parameter imageName: The file name of the GIF in the main bundle.
   public func prepareForAnimation(withGIFNamed imageName: String) {
     animator?.prepareForAnimation(withGIFNamed: imageName, size: frame.size, contentMode: contentMode)
   }
 
   /// Prepare for animation and start animating immediately.
   ///
-  /// - parameter imageData:   GIF image data.
+  /// - parameter imageData: GIF image data.
   public func prepareForAnimation(withGIFData imageData: Data) {
     image = UIImage(data: imageData)
     animator?.prepareForAnimation(withGIFData: imageData, size: frame.size, contentMode: contentMode)

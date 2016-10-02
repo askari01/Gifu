@@ -35,7 +35,7 @@ public class Animator {
     return frameStore?.frameCount ?? 0
   }
 
-  /// Instantiates a new animator object with a delegate view.
+  /// Creates a new animator with a delegate.
   ///
   /// - parameter view: A view object that implements the `GIFAnimatable` protocol.
   ///
@@ -142,7 +142,7 @@ fileprivate class DisplayLinkProxy {
   /// The target animator.
   private weak var target: Animator?
 
-  /// Init with target animator.
+  /// Create a new proxy object with a target animator.
   ///
   /// - parameter target: An animator instance.
   ///
